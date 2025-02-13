@@ -1,0 +1,24 @@
+<p>The solution involves better handling of the asynchronous nature of file uploads.  We can improve this by using Promises or async/await, which makes asynchronous code easier to write and manage. This would add more robust error handling for failed uploads.</p><pre><code class="language-html">&lt;input type="file" id="fileInput"&gt;
+&lt;script&gt;
+async function uploadFile(file) {
+  try {
+    let formData = new FormData();
+    formData.append('file', file);
+    let response = await fetch('/upload', {
+      method: 'POST',
+      body: formData
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    let result = await response.json();
+    console.log('Success:', result);
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    // Add more specific error handling here, like displaying error messages to the user
+  }
+}
+document.getElementById('fileInput').addEventListener('change', function(e) {
+  uploadFile(this.files[0]);
+});
+&lt;/script&gt;</code></pre>
